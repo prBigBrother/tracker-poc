@@ -1,36 +1,168 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Location Tracker - Real-time GPS Tracking App
 
-## Getting Started
+A modern web application that tracks user location in real-time using Google Maps and displays it with a blue dot marker. Built with Next.js, TypeScript, and Tailwind CSS.
 
-First, run the development server:
+## Features
+
+-   🗺️ **Google Maps Integration**: Interactive map with real-time location display
+-   📍 **Real-time Tracking**: Continuous location updates with blue dot marker
+-   🔐 **Permission Management**: Proper geolocation permission handling
+-   📱 **Cross-device Support**: Works on desktop, tablet, and mobile devices
+-   🎯 **Accurate Positioning**: High-accuracy GPS with fallback support
+-   🎨 **Modern UI**: Clean, responsive design with Tailwind CSS
+-   ⚡ **Real-time Updates**: Live location tracking with visual feedback
+
+## Prerequisites
+
+Before running this application, you need:
+
+1. **Google Maps API Key** - Get one from [Google Cloud Console](https://console.cloud.google.com/google/maps-apis)
+2. **Node.js** (v18 or higher)
+3. **pnpm** package manager
+
+## Setup Instructions
+
+### 1. Clone and Install Dependencies
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Install dependencies
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Get Google Maps API Key
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Go to [Google Cloud Console](https://console.cloud.google.com/google/maps-apis)
+2. Create a new project or select an existing one
+3. Enable the following APIs:
+    - Maps JavaScript API
+    - Geocoding API (optional)
+4. Create credentials (API Key)
+5. Restrict the API key for security:
+    - Add your domain to HTTP referrers
+    - Enable only the required APIs
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Environment Configuration
 
-## Learn More
+Create a `.env.local` file in the root directory:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Create environment file
+touch .env.local
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Add your Google Maps API key:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```env
+NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_actual_api_key_here
+```
 
-## Deploy on Vercel
+### 4. Run the Development Server
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+pnpm dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Usage
+
+1. **Enter Your Name**: Fill in the name input field
+2. **Request Location Permission**: Click "Start Tracking" to allow location access
+3. **View Your Location**: Your position appears as a blue dot on the map
+4. **Real-time Updates**: The map automatically follows your movement
+5. **Stop Tracking**: Click "Stop Tracking" to end location monitoring
+
+## Architecture
+
+### Components
+
+-   **`Map`**: Google Maps integration with location marker
+-   **`ControlButtons`**: Start/stop tracking controls with status indicators
+-   **`NameInput`**: User name input field
+-   **`useLocationTracking`**: Custom hook for geolocation management
+
+### Key Features
+
+-   **Permission Handling**: Graceful handling of location permissions
+-   **Error Management**: Comprehensive error handling for various scenarios
+-   **Responsive Design**: Optimized for all screen sizes
+-   **Performance**: Efficient location updates with proper cleanup
+-   **Accessibility**: Proper ARIA labels and keyboard navigation
+
+## Browser Support
+
+Works on all modern browsers that support:
+
+-   Geolocation API
+-   ES6+ JavaScript features
+-   CSS Grid and Flexbox
+
+### Mobile Considerations
+
+-   Optimized touch controls
+-   Responsive map controls
+-   Proper viewport handling
+-   Battery-efficient location tracking
+
+## Troubleshooting
+
+### Common Issues
+
+1. **"Location Access Denied"**
+
+    - Check browser location permissions
+    - Ensure HTTPS in production
+    - Verify API key restrictions
+
+2. **Map Not Loading**
+
+    - Verify Google Maps API key
+    - Check API key restrictions
+    - Ensure Maps JavaScript API is enabled
+
+3. **Location Not Updating**
+    - Check device GPS settings
+    - Verify location permissions
+    - Try refreshing the page
+
+### Development Tips
+
+-   Use browser developer tools to monitor location permissions
+-   Check console for API key errors
+-   Test on actual mobile devices for best results
+
+## Deployment
+
+### Vercel (Recommended)
+
+1. Push to GitHub
+2. Connect to Vercel
+3. Add environment variables in Vercel dashboard
+4. Deploy
+
+### Other Platforms
+
+Ensure the following for production deployment:
+
+-   HTTPS enabled (required for geolocation)
+-   Environment variables properly configured
+-   API key restrictions updated for production domain
+
+## Security Notes
+
+-   API keys are exposed to the client (necessary for Maps API)
+-   Use API key restrictions to limit usage
+-   Monitor API usage in Google Cloud Console
+-   Consider implementing server-side API key management for sensitive operations
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+MIT License - feel free to use in your projects.
