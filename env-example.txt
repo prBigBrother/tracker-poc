@@ -6,3 +6,18 @@
 # 4. Copy this to .env.local and replace with your actual key
 
 NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
+
+# NextAuth (Google OAuth)
+# Get credentials from: https://console.cloud.google.com/apis/credentials
+# Create an OAuth 2.0 Client ID for Web application.
+# Add Authorized redirect URI: http://localhost:3000/api/auth/callback/google
+GOOGLE_CLIENT_ID=your_google_client_id_here
+GOOGLE_CLIENT_SECRET=your_google_client_secret_here
+
+# Only users with emails at this domain can sign in
+# Example: example.com
+ALLOWED_EMAIL_DOMAIN=your-company-domain.com
+
+# Optional: set when deploying to production
+# NEXTAUTH_URL=https://your-domain.tld
+# NEXTAUTH_SECRET=generate_a_random_secret
