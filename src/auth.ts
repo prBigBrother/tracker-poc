@@ -1,5 +1,6 @@
 import type { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import { ensureSchema, upsertUser } from "@/lib/db";
 
 const allowedDomain = process.env.ALLOWED_EMAIL_DOMAIN?.toLowerCase();
 
@@ -57,6 +58,19 @@ export const authOptions: NextAuthOptions = {
         if (u.origin === baseUrl) return u.toString();
       } catch {}
       return baseUrl + "/";
+    },
+  },
+  events: {
+    async signIn({ user }) {
+      try {
+        const email = user?.email?.toLowerCase() || null;
+        if (email) {
+          await ensureSchema();
+          await upsertUser({ email, name: user.name, image: (user as any).image });
+        }
+      } catch (e) {
+        console.error('Failed to ensure user on signIn', e);
+      }
     },
   },
 };

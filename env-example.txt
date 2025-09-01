@@ -21,3 +21,9 @@ ALLOWED_EMAIL_DOMAIN=your-company-domain.com
 # Optional: set when deploying to production
 # NEXTAUTH_URL=https://your-domain.tld
 # NEXTAUTH_SECRET=generate_a_random_secret
+
+# Vercel Postgres (Neon via Vercel Marketplace)
+# Set automatically by the Vercel + Neon integration. Ensure these exist in your project env.
+# POSTGRES_URL=postgres://... (Primary connection string)
+# POSTGRES_PRISMA_URL=postgres://... (If using Prisma)
+# POSTGRES_URL_NON_POOLING=postgres://... (Direct connection)

@@ -2,6 +2,7 @@
 import Map from '@/components/Map';
 import ControlButtons from '@/components/ControlButtons';
 import { useLocationTracking } from '@/hooks/useLocationTracking';
+import { useEffect, useRef } from 'react';
 
 export default function Home() {
 	const {
@@ -12,7 +13,43 @@ export default function Home() {
 		gpsSignalStrength,
 		startTracking,
 		stopTracking,
-	} = useLocationTracking();
+  } = useLocationTracking();
+
+  const latestLocationRef = useRef(userLocation);
+  useEffect(() => { latestLocationRef.current = userLocation; }, [userLocation]);
+
+  // Send tracking events every 5 seconds while tracking is active
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+
+    async function sendOnce() {
+      const loc = latestLocationRef.current;
+      if (!loc) return;
+      try {
+        await fetch('/api/track', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            lat: loc.lat,
+            lng: loc.lng,
+            source: loc.source ?? null,
+            accuracy: loc.accuracy ?? null,
+          }),
+        });
+      } catch (e) {
+        console.warn('Failed to post track event', e);
+      }
+    }
+
+    if (isTracking) {
+      // Send immediately, then every 5s
+      sendOnce();
+      interval = setInterval(sendOnce, 5000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isTracking]);
 
 
 	const getSignalStrengthColor = (strength: string) => {
