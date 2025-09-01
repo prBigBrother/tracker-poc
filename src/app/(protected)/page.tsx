@@ -2,6 +2,7 @@
 import Map from '@/components/Map';
 import ControlButtons from '@/components/ControlButtons';
 import { useLocationTracking } from '@/hooks/useLocationTracking';
+import LatestTracking from '@/components/LatestTracking';
 import { useEffect, useRef } from 'react';
 
 export default function Home() {
@@ -18,7 +19,7 @@ export default function Home() {
   const latestLocationRef = useRef(userLocation);
   useEffect(() => { latestLocationRef.current = userLocation; }, [userLocation]);
 
-  // Send tracking events every 5 seconds while tracking is active
+  // Send tracking events every 1 minute while tracking is active
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
 
@@ -42,9 +43,9 @@ export default function Home() {
     }
 
     if (isTracking) {
-      // Send immediately, then every 5s
+      // Send immediately, then every 60s
       sendOnce();
-      interval = setInterval(sendOnce, 5000);
+      interval = setInterval(sendOnce, 60000);
     }
     return () => {
       if (interval) clearInterval(interval);
@@ -106,13 +107,6 @@ export default function Home() {
 				<div className="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-6">
 					{/* Left Panel - Controls */}
 					<div className="lg:col-span-1 space-y-4 order-2 lg:order-1">
-						<ControlButtons
-							isTracking={isTracking}
-							onStartTracking={startTracking}
-							onStopTracking={stopTracking}
-							permissionStatus={permissionStatus}
-							locationError={locationError}
-						/>
 
 						{/* IP Location button removed. The hook still initializes with GPS or IP fallback automatically. */}
 
@@ -202,6 +196,8 @@ export default function Home() {
 							</div>
 						)}
 
+						{/* Latest 20 tracking events moved under the map */}
+
 						{/* Debug Info - Only show in development */}
 						{process.env.NODE_ENV === 'development' && (
 							<div className="p-4 bg-gray-50 rounded-lg border">
@@ -227,11 +223,24 @@ export default function Home() {
 
 					{/* Right Panel - Map */}
 					<div className="lg:col-span-2 order-1 lg:order-2">
+						{/* Start/Stop Tracking controls above the map */}
+						<div className="mb-4">
+							<ControlButtons
+								isTracking={isTracking}
+								onStartTracking={startTracking}
+								onStopTracking={stopTracking}
+								permissionStatus={permissionStatus}
+								locationError={locationError}
+							/>
+						</div>
 						<div className="bg-white rounded-lg shadow-lg p-3 lg:p-4">
 							<h2 className="text-lg lg:text-xl font-semibold text-gray-800 mb-3 lg:mb-4">Map View</h2>
 							<div className="h-80 sm:h-96 lg:h-[500px] xl:h-[600px]">
 								<Map userLocation={userLocation} isTracking={isTracking} />
 							</div>
+						</div>
+						<div className="mt-4">
+							<LatestTracking />
 						</div>
 					</div>
 				</div>
