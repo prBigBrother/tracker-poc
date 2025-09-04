@@ -22,7 +22,7 @@ export default function manifest(): MetadataRoute.Manifest {
         src: '/icon.svg',
         sizes: 'any',
         type: 'image/svg+xml',
-        purpose: 'any maskable',
+        purpose: 'maskable',
       },
     ],
     id: '/?source=pwa',
@@ -30,4 +30,3 @@ export default function manifest(): MetadataRoute.Manifest {
     prefer_related_applications: false,
   };
 }
-
