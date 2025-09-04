@@ -11,6 +11,7 @@ A modern web application that tracks user location in real-time using Google Map
 -   🎯 **Accurate Positioning**: High-accuracy GPS with fallback support
 -   🎨 **Modern UI**: Clean, responsive design with Tailwind CSS
 -   ⚡ **Real-time Updates**: Live location tracking with visual feedback
+-   📦 **PWA Support**: Installable app with offline fallback page
 
 ## Prerequisites
 
@@ -63,6 +64,13 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 5. PWA Notes
+
+- The app includes a web app manifest and a service worker (`public/sw.js`).
+- Install prompts appear in supported browsers after the first successful load.
+- An offline fallback page is available at `/offline` when the network is unavailable.
+- In development, service workers work on `http://localhost` only; for other hosts use HTTPS.
 
 ## Usage
 
